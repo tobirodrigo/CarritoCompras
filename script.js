@@ -37,18 +37,18 @@ var swiper = new Swiper(".mySwiper-2", {
 
 document.addEventListener("DOMContentLoaded", function () {
     const carrito = document.getElementById("carrito");
-    const elemetos1 = document.getElementById("lista-1");
-    const elemetos2 = document.getElementById("lista-2");
-    const elemetos3 = document.getElementById("lista-3");
-    const lista = document.querySelector("#lista-carrito tbody");
+    const lista1 = document.getElementById("lista-1");
+    const lista2 = document.getElementById("lista-2");
+    const lista3 = document.getElementById("lista-3");
+    const lista = document.querySelector("#list-cart tbody");
     const vaciarCarritoBtn = document.getElementById("vaciar-carrito");
 
     cargarEventListeners();
 
     function cargarEventListeners() {
-        elemetos1.addEventListener("click", comprarElemento);
-        elemetos2.addEventListener("click", comprarElemento);
-        elemetos3.addEventListener("click", comprarElemento);
+        lista1.addEventListener("click", comprarElemento);
+        lista2.addEventListener("click", comprarElemento);
+        lista3.addEventListener("click", comprarElemento);
         carrito.addEventListener("click", eliminarElemento);
 
         vaciarCarritoBtn.addEventListener("click", vaciarCarrito);
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function comprarElemento(e) {
         e.preventDefault();
         if (e.target.classList.contains("agregar-carrito")) {
-            const elemento = e.target.parentElement.parentElement;
+            const elemento = e.target.parentElement.parentElement.parentElement.parentElement;
             leerDatosElemento(elemento);
         }
     }
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
             imagen: elemento.querySelector("img").src,
             titulo: elemento.querySelector("h3").textContent,
             precio: elemento.querySelector(".precio").textContent,
-            id: elemento.querySelector("a").getAttribute("data-ic")
+            id: elemento.querySelector("a").getAttribute("data-id")
         }
 
         insertarCarrito(infoElemento);
@@ -96,20 +96,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function eliminarElemento(e) {
         e.preventDefault();
-        let elemento,
-            elementoId;
-
         if (e.target.classList.contains("borrar")) {
-            e.target.parentElement.parentElement.remove();
-            elemento = e.target.parentElement.parentElement;
-            elementoId = elemento.querySelector("a").getAttribute("data-id");
+            const elemento = e.target.parentElement.parentElement;
+            const elementoId = elemento.querySelector("a").getAttribute("data-id");
+            elemento.remove();
         }
     }
 
     function vaciarCarrito() {
         while (lista.firstChild) {
-            lista.removeChild(lista.firstChild)
+            lista.removeChild(lista.firstChild);
         }
-        return false;
     }
 });
